@@ -1,0 +1,9 @@
+magnet:?xt=urn:btih:
+[hash]
+&dn=
+
+TITLE
+    spaces = %20
+    , = %2C
+
+&tr=[tracker]
