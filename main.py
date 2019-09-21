@@ -41,6 +41,7 @@ def main():
         soup = BeautifulSoup(r.content, 'html.parser')
         contents = soup.select('.post')
 
+        print("### END OF PAGE ###")
         print("Found " + str(len(contents)) + " books on this page")
 
         for post in contents:
