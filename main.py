@@ -23,6 +23,7 @@ def main():
         postTitle = post.select_one('.postTitle h2 a').text.strip()
         # TODO: Parse book language for postInfo
         rawPostContent = post.select('.postContent p')[3].text.strip() # Named "raw" becayse the String at this point is not very readable
+        # TODO: rawPostContent doesn't acguire the file size if it's in Bytes instead of GBs
         postContent = formatContent(rawPostContent)
 
         print(color.BOLD + color.UNDERLINE + postTitle + color.END)
@@ -34,6 +35,7 @@ def formatContent(s):
     formatted = s.replace("Format:", " / Format:")
     formatted = formatted.replace("  /", " /")
     formatted = formatted.replace("File ", "/ File ")
+    formatted = formatted.replace("?", color.RED + "?" + color.END)
     return formatted
 
 
