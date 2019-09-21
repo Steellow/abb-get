@@ -20,10 +20,12 @@ def main():
 
 
     for post in contents:
-        name = post.select_one('.postTitle h2 a').text.strip()
+        postTitle = post.select_one('.postTitle h2 a').text.strip()
         # TODO: Parse book language for postInfo
+        postContent = post.select('.postContent p')[3].text.strip()
 
-        print(color.BOLD + name + color.END)
+        print(color.BOLD + postTitle + color.END)
+        print(postContent)
 
 
 main()
