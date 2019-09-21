@@ -22,10 +22,19 @@ def main():
     for post in contents:
         postTitle = post.select_one('.postTitle h2 a').text.strip()
         # TODO: Parse book language for postInfo
-        postContent = post.select('.postContent p')[3].text.strip()
+        rawPostContent = post.select('.postContent p')[3].text.strip() # Named "raw" becayse the String at this point is not very readable
+        postContent = formatContent(rawPostContent)
 
-        print(color.BOLD + postTitle + color.END)
+        print(color.BOLD + color.UNDERLINE + postTitle + color.END)
         print(postContent)
+        #break
+
+
+def formatContent(s):
+    formatted = s.replace("Format:", " / Format:")
+    formatted = formatted.replace("  /", " /")
+    formatted = formatted.replace("File ", "/ File ")
+    return formatted
 
 
 main()
