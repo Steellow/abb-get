@@ -6,10 +6,12 @@ import re
 color = cli_helper.color()
 
 def main():
+    # TODO: Make the url variables smarter
     searchpage_url = r'http://audiobookbay.nl/?s='
     # TODO: Use input() so you can decide what to search
     # TODO: string converter (html encrypt), e.g. "Harry Potter" -> "harry+potter"
     user_search = "harry+potter+collection"
+
 
     # Create BeautifulSoup of the main page to get number of pages
     main_url = searchpage_url + user_search
@@ -29,20 +31,27 @@ def main():
         maxPages = int(navigation_secondLast)
         print(f"Number of pages found: {maxPages}")
 
-    contents = soup.select('.post')
+    pages = [main_url]
+    for i in range(2, maxPages + 1):
+        pages.append(r'http://audiobookbay.nl/page/' + str(i) + '/?s=harry+potter+collection') # TODO: Same as first TODO (Make the url variables smarter)
 
-    print("Found " + str(len(contents)) + " books")
 
-    for post in contents:
-        postTitle = post.select_one('.postTitle h2 a').text.strip()
-        # TODO: Parse book language for postInfo
-        rawPostContent = post.select('.postContent p')[3].text.strip() # Named "raw" because the String at this point is not very readable
-        # TODO: rawPostContent doesn't acguire the file size if it's in Bytes instead of GBs
-        postContent = formatContent(rawPostContent)
+    for page in pages:
+        r = requests.get(page)
+        soup = BeautifulSoup(r.content, 'html.parser')
+        contents = soup.select('.post')
 
-        print(color.BOLD + color.UNDERLINE + postTitle + color.END)
-        print(postContent)
-        break
+        print("Found " + str(len(contents)) + " books on this page")
+
+        for post in contents:
+            postTitle = post.select_one('.postTitle h2 a').text.strip()
+            # TODO: Parse book language for postInfo
+            rawPostContent = post.select('.postContent p')[3].text.strip() # Named "raw" because the String at this point is not very readable
+            # TODO: rawPostContent doesn't acguire the file size if it's in Bytes instead of GBs
+            postContent = formatContent(rawPostContent)
+
+            print(color.BOLD + color.UNDERLINE + postTitle + color.END)
+            print(postContent)
 
 
 def formatContent(s):
