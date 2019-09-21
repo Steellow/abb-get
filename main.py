@@ -35,6 +35,7 @@ def formatContent(s):
     formatted = s.replace("Format:", " / Format:")
     formatted = formatted.replace("  /", " /")
     formatted = formatted.replace("File ", "/ File ")
+    formatted = formatted.replace("?/", "? /")
     formatted = formatted.replace("?", color.RED + "?" + color.END)
     return formatted
 
