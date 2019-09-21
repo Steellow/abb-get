@@ -1,6 +1,8 @@
 from bs4 import BeautifulSoup
 import requests
+import cli_helper
 
+color = cli_helper.color()
 
 def main():
     searchpage_url = r'http://audiobookbay.nl/?s='
@@ -14,14 +16,14 @@ def main():
 
     contents = soup.select('.post')
 
-    print(len(contents))
+    print("Found " + str(len(contents)) + " books")
 
 
     for post in contents:
         name = post.select_one('.postTitle h2 a').text.strip()
         # TODO: Parse book language for postInfo
 
-        print(name)
+        print(color.BOLD + name + color.END)
 
 
 main()
