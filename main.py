@@ -35,14 +35,12 @@ def main():
     for i in range(2, maxPages + 1):
         pages.append(r'http://audiobookbay.nl/page/' + str(i) + '/?s=harry+potter+collection') # TODO: Same as first TODO (Make the url variables smarter)
 
+    nth = 1 # Keeps track of how many books
 
     for page in pages:
         r = requests.get(page)
         soup = BeautifulSoup(r.content, 'html.parser')
         contents = soup.select('.post')
-
-        print("### END OF PAGE ###")
-        print("Found " + str(len(contents)) + " books on this page")
 
         for post in contents:
             postTitle = post.select_one('.postTitle h2 a').text.strip()
@@ -51,8 +49,10 @@ def main():
             # TODO: rawPostContent doesn't acguire the file size if it's in Bytes instead of GBs
             postContent = formatContent(rawPostContent)
 
-            print(color.BOLD + color.UNDERLINE + postTitle + color.END)
+            print(color.BOLD + color.UNDERLINE + str(nth) + ". " + postTitle + color.END)
             print(postContent)
+            print("") # Puts empty line between books
+            nth += 1
 
 
 def formatContent(s):
