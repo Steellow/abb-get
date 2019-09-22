@@ -8,10 +8,8 @@ color = cli_helper.color()
 def main():
     domain = r'http://audiobookbay.nl'
     search_prefix = r'/?s='
-    # TODO: Use input() so you can decide what to search
     # TODO: string converter (html encrypt), e.g. "Harry Potter" -> "harry+potter"
-    user_search = "harry+potter+collection"
-
+    user_search = input("Enter search term: ") # NOTE: You have to put '+' instead of spaces, see above todo
 
     # Create BeautifulSoup of the main page to get number of pages
     main_url = domain + search_prefix + user_search
