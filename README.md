@@ -12,5 +12,6 @@ I started programming abb-get in order to learn Python and web scraping. Will de
 - [ ] Print books on multiple pages instead of one big list
 - [ ] Make CLI more readable
 - [ ] Print torrent seeders/leechers
+- [ ] Ability to sort search results (with json?)
 
 These are not in any particular order, just some quickly thought out of my head
