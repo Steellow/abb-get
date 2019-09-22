@@ -8,8 +8,7 @@ color = cli_helper.color()
 def main():
     domain = r'http://audiobookbay.nl'
     search_prefix = r'/?s='
-    # TODO: string converter (html encrypt), e.g. "Harry Potter" -> "harry+potter"
-    user_search = input("Enter search term: ") # NOTE: You have to put '+' instead of spaces, see above todo
+    user_search = input("Enter search term: ")
 
     # Create BeautifulSoup of the main page to get number of pages
     main_url = domain + search_prefix + user_search
@@ -24,6 +23,7 @@ def main():
 
     if "»»" in navigation_last:
         maxPages = re.findall(r'\d+', navigation_last)[0] # Finds all the integers in given String
+        maxPages = int(maxPages)
         print(f"Number of pages found: {maxPages}")
     else:
         maxPages = int(navigation_secondLast)
@@ -50,7 +50,7 @@ def main():
             print(color.BOLD + color.UNDERLINE + str(nth) + ". " + postTitle + color.END)
             print(postContent)
             print("") # Puts empty line between books
-            nth += 1
+            nth += 1 # TODO: Stop and ask before going to next page?
 
 
 def formatContent(s):
