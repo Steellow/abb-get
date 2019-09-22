@@ -41,7 +41,7 @@ def main():
         contents = soup.select('.post')
 
         for post in contents:
-            postTitle = post.select_one('.postTitle h2 a').text.strip()
+            postTitle = post.select_one('.postTitle h2 a').text.strip() # # TODO: Breaks at second page of "ready player one" search for unknown reason (post re-ab class?)
             # TODO: Parse book language for postInfo
             rawPostContent = post.select('.postContent p')[3].text.strip() # Named "raw" because the String at this point is not very readable
             # TODO: rawPostContent doesn't acguire the file size if it's in Bytes instead of GBs
