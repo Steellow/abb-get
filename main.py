@@ -6,15 +6,15 @@ import re
 color = cli_helper.color()
 
 def main():
-    # TODO: Make the url variables smarter
-    searchpage_url = r'http://audiobookbay.nl/?s='
+    domain = r'http://audiobookbay.nl'
+    search_prefix = r'/?s='
     # TODO: Use input() so you can decide what to search
     # TODO: string converter (html encrypt), e.g. "Harry Potter" -> "harry+potter"
     user_search = "harry+potter+collection"
 
 
     # Create BeautifulSoup of the main page to get number of pages
-    main_url = searchpage_url + user_search
+    main_url = domain + search_prefix + user_search
     r = requests.get(main_url)
     soup = BeautifulSoup(r.content, 'html.parser')
 
@@ -33,7 +33,7 @@ def main():
 
     pages = [main_url]
     for i in range(2, maxPages + 1):
-        pages.append(r'http://audiobookbay.nl/page/' + str(i) + '/?s=harry+potter+collection') # TODO: Same as first TODO (Make the url variables smarter)
+        pages.append(domain + r'/page/' + str(i) + search_prefix + user_search)
 
     nth = 1 # Keeps track of how many books
 
@@ -59,6 +59,7 @@ def formatContent(s):
     formatted = s.replace("Format:", " / Format:")
     formatted = formatted.replace("  /", " /")
     formatted = formatted.replace("File ", "/ File ")
+    formatted = formatted.replace("Kbps/", "Kbps /")
     formatted = formatted.replace("?/", "? /")
     formatted = formatted.replace("?", color.RED + "?" + color.END)
     return formatted
