@@ -8,7 +8,7 @@ color = cli_helper.color()
 def main():
     domain = r'http://audiobookbay.nl'
     search_prefix = r'/?s='
-    user_search = input("Enter search term: ")
+    user_search = input("Enter search term: ") # TODO: Error if no results
 
     # Create BeautifulSoup of the main page to get number of pages
     main_url = domain + search_prefix + user_search
@@ -33,7 +33,7 @@ def main():
     for i in range(2, maxPages + 1):
         pages.append(domain + r'/page/' + str(i) + search_prefix + user_search)
 
-    nth = 1 # Keeps track of how many books
+    nth = 1
 
     for page in pages:
         r = requests.get(page)
@@ -50,7 +50,11 @@ def main():
             print(color.BOLD + color.UNDERLINE + str(nth) + ". " + postTitle + color.END)
             print(postContent)
             print("") # Puts empty line between books
-            nth += 1 # TODO: Stop and ask before going to next page?
+            nth += 1
+
+        input("Show next page?")
+        print("")
+
 
 
 def formatContent(s):
