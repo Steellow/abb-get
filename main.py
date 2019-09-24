@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 import cli_helper
 import re
+import urllib.parse
 
 color = cli_helper.color()
 
