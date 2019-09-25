@@ -9,7 +9,8 @@ color = cli_helper.color()
 def main():
     domain = r'http://audiobookbay.nl'
     search_prefix = r'/?s='
-    user_search = input("Enter search term: ") # TODO: Error if no results
+    #user_search = input("Enter search term: ") # TODO: Error if no results (DISABLED FOR FASTER TESTING)
+    user_search = "harry+potter+collection"
 
     # Create BeautifulSoup of the main page to get number of pages
     main_url = domain + search_prefix + user_search
@@ -35,7 +36,7 @@ def main():
         pages.append(domain + r'/page/' + str(i) + search_prefix + user_search)
 
     nth = 1
-    magnet_list = []
+    post_link_list = []
 
     for page in pages:
         r = requests.get(page)
@@ -54,16 +55,34 @@ def main():
             print(postContent)
             print("") # Puts empty line between books
 
-            magnet_list.insert(nth, postLink)  # Puts post link to list so user can later retrieve it)
+            post_link_list.insert(nth, postLink)  # Puts post link to list so user can later retrieve it)
             nth += 1
 
-        choice = input("Show next page?")
+        #choice = input("Show next page?") #  DISABLED FOR FASTER TESTING
+        choice = "1"
         print("")  # Empty line for better formatting
 
         if choice is not "y":  # Better choice checking;, continue if choice is anything but integer?
             break
 
-    print(magnet_list[int(choice)])
+    # ### RETRIEVING MAGNET LINK FROM THE POST ### #
+
+    print(post_link_list[int(choice)])  # DEBUG
+    post_url = post_link_list[int(choice)]
+    r = requests.get(post_url)
+    soup = BeautifulSoup(r.content, 'html.parser')
+
+    data = []  # The table from book's page
+    base_table = soup.select_one('.torrent_info')
+    rows = base_table.find_all('tr')
+    for row in rows:  # Goes through the table and creates simpler list
+        cols = []
+        cols_raw = row.find_all('td')
+        for col in cols_raw:
+            cols.append(col.get_text())
+        data.append(cols)
+
+    print(data)
 
 
 def formatContent(s):
