@@ -48,12 +48,13 @@ def main():
             rawPostContent = post.select('.postContent p')[3].text.strip()  # Named "raw" because the String at this point is not very readable
             # TODO: rawPostContent doesn't acguire the file size if it's in Bytes instead of GBs
             postContent = formatContent(rawPostContent)
+            postLink = domain + post.select_one('.postTitle h2 a')['href']
 
             print(color.BOLD + color.UNDERLINE + str(nth) + ". " + postTitle + color.END)
             print(postContent)
             print("") # Puts empty line between books
 
-            magnet_list.insert(nth, postTitle)  # Puts magnet link (temporarily post title) to list so user can later retrieve it)
+            magnet_list.insert(nth, postLink)  # Puts post link to list so user can later retrieve it)
             nth += 1
 
         choice = input("Show next page?")
