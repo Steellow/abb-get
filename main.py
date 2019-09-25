@@ -35,6 +35,7 @@ def main():
         pages.append(domain + r'/page/' + str(i) + search_prefix + user_search)
 
     nth = 1
+    magnet_list = []
 
     for page in pages:
         r = requests.get(page)
@@ -42,20 +43,26 @@ def main():
         contents = soup.select('.post')
 
         for post in contents:
-            postTitle = post.select_one('.postTitle h2 a').text.strip() # # TODO: Breaks at second page of "ready player one" search for unknown reason (post re-ab class?)
+            postTitle = post.select_one('.postTitle h2 a').text.strip()  #TODO: Breaks at second page of "ready player one" search for unknown reason (post re-ab class?)
             # TODO: Parse book language for postInfo
-            rawPostContent = post.select('.postContent p')[3].text.strip() # Named "raw" because the String at this point is not very readable
+            rawPostContent = post.select('.postContent p')[3].text.strip()  # Named "raw" because the String at this point is not very readable
             # TODO: rawPostContent doesn't acguire the file size if it's in Bytes instead of GBs
             postContent = formatContent(rawPostContent)
 
             print(color.BOLD + color.UNDERLINE + str(nth) + ". " + postTitle + color.END)
             print(postContent)
             print("") # Puts empty line between books
+
+            magnet_list.insert(nth, postTitle)  # Puts magnet link (temporarily post title) to list so user can later retrieve it)
             nth += 1
 
-        input("Show next page?")
-        print("")
+        choice = input("Show next page?")
+        print("")  # Empty line for better formatting
 
+        if choice is not "y":  # Better choice checking;, continue if choice is anything but integer?
+            break
+
+    print(magnet_list[int(choice)])
 
 
 def formatContent(s):
