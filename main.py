@@ -67,10 +67,11 @@ def main():
 
     # ### RETRIEVING MAGNET LINK FROM THE POST ### #
 
-    print(post_link_list[int(choice)])  # DEBUG
     post_url = post_link_list[int(choice)]
     r = requests.get(post_url)
     soup = BeautifulSoup(r.content, 'html.parser')
+
+    name = soup.select_one('.postTitle h1').text.strip()
 
     data = []  # The table from book's page
     base_table = soup.select_one('.torrent_info')
@@ -82,7 +83,17 @@ def main():
             cols.append(col.get_text())
         data.append(cols)
 
-    print(data)
+    trackers = []
+    # Go throught the table to extract all needed information
+    for row in data:
+        if row[0] == "Tracker:":
+            trackers.append(row[1])
+        if row[0] == "Info Hash:":
+            hash = row[1]
+
+    print(name)
+    print(trackers)
+    print(hash)
 
 
 def formatContent(s):
