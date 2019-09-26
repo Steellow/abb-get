@@ -16,9 +16,10 @@ trackerTwo = 'http://tracker.files.fm:6969/announcehttp'
 trackerThree = 'https://tracker.publictorrent.net:443/announcehttps'
 
 # ###
-testTracker = 'udp://tracker.leechers-paradise.org:6969/announce'
+testTracker = 'udp://tracker.torrent.eu.org:451/announce'
 testResult = urllib.parse.quote(testTracker)
-print(testResult)
+testResult = testResult.replace("/", "%2F")
+print(trackerPrefix + testResult)
 # ###
 # delete /announce from end of tracker
 # also need to encode // from trackers

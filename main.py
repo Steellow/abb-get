@@ -83,7 +83,7 @@ def main():
             cols.append(col.get_text())
         data.append(cols)
 
-    trackers = []
+    trackers = []  # TODO: Find out which trackers abb uses
     # Go throught the table to extract all needed information
     for row in data:
         if row[0] == "Tracker:":
@@ -104,6 +104,21 @@ def formatContent(s):
     formatted = formatted.replace("?/", "? /")
     formatted = formatted.replace("?", color.RED + "?" + color.END)
     return formatted
+
+
+def generateMagnet(name, hash, trackers):
+    prefix = 'magnet:?xt=urn:btih:'
+    beforeTitle = '&dn='
+    name = urllib.parse.quote(name)
+    encoded_trackers = []
+    for tracker in trackers:
+        tracker = urllib.parse.quote(tracker)
+        tracker = tracker.replace("/", "%2F")
+        tracker = "&tr=" + tracker
+        encoded_trackers.append(tracker)
+
+
+
 
 
 main()
