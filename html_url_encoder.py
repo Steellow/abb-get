@@ -21,7 +21,6 @@ testResult = urllib.parse.quote(testTracker)
 testResult = testResult.replace("/", "%2F")
 print(trackerPrefix + testResult)
 # ###
-# delete /announce from end of tracker
 # also need to encode // from trackers
 
 
