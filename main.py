@@ -10,8 +10,8 @@ color = cli_helper.color()
 def main():
     domain = r'http://audiobookbay.nl'
     search_prefix = r'/?s='
-    # user_search = input("Enter search term: ") # TODO: Error if no results (DISABLED FOR FASTER TESTING)
-    user_search = "harry+potter+collection"
+    user_search = input("Enter search term: ") # TODO: Error if no results (DISABLED FOR FASTER TESTING)
+    # user_search = "ready+player+one"
 
     # Create BeautifulSoup of the main page to get number of pages
     main_url = domain + search_prefix + user_search
@@ -65,16 +65,17 @@ def main():
             post_link_list.insert(nth, postLink)
             nth += 1
 
-        # choice = input("Show next page?") #  DISABLED FOR FASTER TESTING
-        choice = "0"
+        choice = input("Type 'y' to show next page, or select audiobook by its number: ") #  DISABLED FOR FASTER TESTING
+        # choice = "0"
         print("")  # Empty line for better formatting
 
-        if choice is not "y":  # Better choice checking;, continue if choice is anything but integer?
+        if choice is not "y":  # TODO: Better choice checking;, continue if choice is anything but integer?
             break
+        # TODO: Crashes if you go to unexisting page
 
     # ### PARSING THE BOOK PAGE FROM HERE BELOW ### #
 
-    post_url = post_link_list[int(choice)]
+    post_url = post_link_list[int(choice) - 1]
     r = requests.get(post_url)
     soup = BeautifulSoup(r.content, 'html.parser')
 
@@ -98,8 +99,7 @@ def main():
         if row[0] == "Info Hash:":
             hash = row[1]
 
-    print("Name: " + name)
-    print("hash: " + hash)
+    print(color.BOLD + color.UNDERLINE + name + color.END)
     print("")
 
     magnet_link = generateMagnet(name, hash, trackers)
