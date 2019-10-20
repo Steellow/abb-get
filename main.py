@@ -19,23 +19,28 @@ def main():
     soup = BeautifulSoup(r.content, 'html.parser')
 
     navigation = soup.select('.wp-pagenavi a')
-    navigation_last = str(navigation[len(navigation) - 1])
-    navigation_secondLast = navigation[len(navigation) - 2].text.strip()
-    # NOTE: navigation_last is the whole HTML element, and navigation_secondLast is only the text from the element
-    # (number of pages as string)
+    if len(navigation) > 0:
+        navigation_last = str(navigation[len(navigation) - 1])
+        navigation_secondLast = navigation[len(navigation) - 2].text.strip()
+        # NOTE: navigation_last is the whole HTML element, and navigation_secondLast is only the text from the element
+        # (number of pages as string)
 
-    if "»»" in navigation_last:
-        # Finds all the integers in given String
-        maxPages = re.findall(r'\d+', navigation_last)[0]
-        maxPages = int(maxPages)
-        print(f"Number of pages found: {maxPages}")
+        if "»»" in navigation_last:
+            # Finds all the integers in given String
+            maxPages = re.findall(r'\d+', navigation_last)[0]
+            maxPages = int(maxPages)
+            print(f"Number of pages found: {maxPages}")
+        else:
+            maxPages = int(navigation_secondLast)
+            print(f"Number of pages found: {maxPages}")
+
+        pages = [main_url]
+        for i in range(2, maxPages + 1):
+            pages.append(domain + r'/page/' + str(i) + search_prefix + user_search)
     else:
-        maxPages = int(navigation_secondLast)
-        print(f"Number of pages found: {maxPages}")
-
-    pages = [main_url]
-    for i in range(2, maxPages + 1):
-        pages.append(domain + r'/page/' + str(i) + search_prefix + user_search)
+        pages = [main_url]
+        print("Only 1 page found")
+        print("")
 
     nth = 1
     post_link_list = []
